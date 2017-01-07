@@ -16,31 +16,14 @@ namespace SendToREST
     {
         static void Main(string[] args)
         {
-        }
-    }
+            System.Console.WriteLine("start/n");
 
-    class SendToREST
-    {
-        private static HttpClient client = new HttpClient();
+            REST_SENDER sender = new REST_SENDER();
 
-        SendToREST()
-        {
-            client.BaseAddress = new Uri("http://medicalibaryrest.azurewebsites.net");
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        }
+            REST_SENDER.TestStuff().Wait();
 
-        // https://www.asp.net/web-api/overview/advanced/calling-a-web-api-from-a-net-client
-        // Praktycznie gotowe?
-        // Nie pamiętam...
-
-        static async Task<Uri> UniversalPost(ObjectNewDTOs obj, string uri)
-        {
-            
-        }
-
-        static async Task UniversalPut()
-        {
-            
+            System.Console.WriteLine("/nkoniec");
+            System.Console.ReadKey();
         }
     }
 }
