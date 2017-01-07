@@ -39,15 +39,11 @@ namespace SendToREST
 
         /*
          * Pobierz jeden*:
-         *      dane_modyfikacji
-         *      magazyn
-         *      modyfikacja
-         *      pacjent
-         *      parametr
-         *      przypisanie_parametru
-         *      wersja
-         *      wizyta
-         *      zasada
+         *      parametr .
+         *      przypisanie_parametru .
+         *      wersja . jebać lol :v
+         *      wizyta .
+         *      zasada .
          *      
          *      Zrób dla każdej funkcję, która sprawdzi czy dla updateowanego obiektu są null'e.
          *      Jeśli są to wypełnij je danymi obiektu o tym samym id w odp liście.
@@ -58,9 +54,8 @@ namespace SendToREST
         {
             a.Replace("[", "");
             a.Replace("]", "");
-            //return a;
         }
-        //pobieram jeden po id
+
         public static async Task<List<DaneModyfikacjiNoweDTO>> DaneModyfikacjiGET(int lid, int id)
         {
             List<DaneModyfikacjiNoweDTO> lista = null;
@@ -74,6 +69,119 @@ namespace SendToREST
             }
             return lista;
         }
+
+        public static async Task<List<MagazynNowyDTO>> MagazynGET(int lid, int id)
+        {
+            List<MagazynNowyDTO> lista = null;
+            string uri = "/magazyn/" + lid.ToString() + "/" + id.ToString();
+            HttpResponseMessage response = await client.GetAsync(uri);
+            if (response.IsSuccessStatusCode)
+            {
+                var list2 = await response.Content.ReadAsStringAsync();
+                ReplaceThisStuff(list2);
+                lista = JsonConvert.DeserializeObject<List<MagazynNowyDTO>>(list2);
+            }
+            return lista;
+        }
+
+        public static async Task<List<ModyfikacjaNowaDTO>> ModyfikacjaGET(int lid, int id)
+        {
+            List<ModyfikacjaNowaDTO> lista = null;
+            string uri = "/modyfikacja/" + lid.ToString() + "/" + id.ToString();
+            HttpResponseMessage response = await client.GetAsync(uri);
+            if (response.IsSuccessStatusCode)
+            {
+                var list2 = await response.Content.ReadAsStringAsync();
+                ReplaceThisStuff(list2);
+                lista = JsonConvert.DeserializeObject<List<ModyfikacjaNowaDTO>>(list2);
+            }
+            return lista;
+        }
+
+        public static async Task<List<PacjentNowyDTO>> PacjentGET(int lid, int id)
+        {
+            List<PacjentNowyDTO> lista = null;
+            string uri = "/pacjent/" + lid.ToString() + "/" + id.ToString();
+            HttpResponseMessage response = await client.GetAsync(uri);
+            if (response.IsSuccessStatusCode)
+            {
+                var list2 = await response.Content.ReadAsStringAsync();
+                ReplaceThisStuff(list2);
+                lista = JsonConvert.DeserializeObject<List<PacjentNowyDTO>>(list2);
+            }
+            return lista;
+        }
+
+        public static async Task<List<ParametrNowyDTO>> ParametrGET(int lid, int id)
+        {
+            List<ParametrNowyDTO> lista = null;
+            string uri = "/parametr/" + lid.ToString() + "/" + id.ToString();
+            HttpResponseMessage response = await client.GetAsync(uri);
+            if (response.IsSuccessStatusCode)
+            {
+                var list2 = await response.Content.ReadAsStringAsync();
+                ReplaceThisStuff(list2);
+                lista = JsonConvert.DeserializeObject<List<ParametrNowyDTO>>(list2);
+            }
+            return lista;
+        }
+
+        public static async Task<List<Przypisanie_ParametruNowyDTO>> PrzypisanieParametruGET(int lid, int id)
+        {
+            List<Przypisanie_ParametruNowyDTO> lista = null;
+            string uri = "/przypisanie/listapoid/" + lid.ToString() + "/" + id.ToString();
+            HttpResponseMessage response = await client.GetAsync(uri);
+            if (response.IsSuccessStatusCode)
+            {
+                var list2 = await response.Content.ReadAsStringAsync();
+                ReplaceThisStuff(list2);
+                lista = JsonConvert.DeserializeObject<List<Przypisanie_ParametruNowyDTO>>(list2);
+            }
+            return lista;
+        }
+        // Niepotrzebne ale jakoś z rozpędu się zrobiło :v
+        public static async Task<List<WersjaNowaDTO>> WersjaGET(int lid, int id)
+        {
+            List<WersjaNowaDTO> lista = null;
+            string uri = "/wersja/lista/" + lid.ToString();// + "/" + id.ToString();
+            HttpResponseMessage response = await client.GetAsync(uri);
+            if (response.IsSuccessStatusCode)
+            {
+                var list2 = await response.Content.ReadAsStringAsync();
+                ReplaceThisStuff(list2);
+                lista = JsonConvert.DeserializeObject<List<WersjaNowaDTO>>(list2);
+            }
+            return lista;
+        }
+
+        public static async Task<List<WizytaNowaDTO>> WizytaGET(int lid, int id)
+        {
+            List<WizytaNowaDTO> lista = null;
+            string uri = "/wizyta/" + lid.ToString() + "/" + id.ToString();
+            HttpResponseMessage response = await client.GetAsync(uri);
+            if (response.IsSuccessStatusCode)
+            {
+                var list2 = await response.Content.ReadAsStringAsync();
+                ReplaceThisStuff(list2);
+                lista = JsonConvert.DeserializeObject<List<WizytaNowaDTO>>(list2);
+            }
+            return lista;
+        }
+
+        public static async Task<List<ZasadaNowaDTO>> ZasadaGET(int lid, int id)
+        {
+            List<ZasadaNowaDTO> lista = null;
+            string uri = "/zasada/lista/" + lid.ToString() + "/" + id.ToString();
+            HttpResponseMessage response = await client.GetAsync(uri);
+            if (response.IsSuccessStatusCode)
+            {
+                var list2 = await response.Content.ReadAsStringAsync();
+                ReplaceThisStuff(list2);
+                lista = JsonConvert.DeserializeObject<List<ZasadaNowaDTO>>(list2);
+            }
+            return lista;
+        }
+
         // zakładam że id zawsze wysłane :v
         // i że jest taki obj :v
         public static async Task DaneModyfikacjiPut(DaneModyfikacjiNoweDTO obj, int lid)
@@ -108,23 +216,129 @@ namespace SendToREST
                 nowa_wartosc = obj.nowa_wartosc,
                 stara_wartosc = obj.stara_wartosc
             };
-
-
             UniversalPut(objToSend, uri);
         }
 
+        public static async Task MagazynPut(MagazynNowyDTO obj, int lid)
+        {
+            List<MagazynNowyDTO> prev = null;
+            MagazynNowyDTO prevObj = new MagazynNowyDTO();
+            prev = await MagazynGET(lid, obj.id);
+            prevObj = prev.Where(e => e.id == obj.id).First();
 
+            if (obj.max_rozmiar == null)
+            {
+                obj.max_rozmiar = prevObj.max_rozmiar;
+            }
+            if (obj.nazwa == null)
+            {
+                obj.nazwa = prevObj.nazwa;
+            }
+            if (obj.priorytet == null)
+            {
+                obj.priorytet = prevObj.priorytet;
+            }
+
+            string uri = "/magazyn/zmiana/" + lid.ToString() + "/" + obj.id.ToString();
+
+            MagazynToSendDTO objToSend = new MagazynToSendDTO()
+            {
+                max_rozmiar = obj.max_rozmiar,
+                nazwa = obj.nazwa,
+                priorytet = obj.priorytet
+            };
+            UniversalPut(objToSend, uri);
+        }
+
+        public static async Task ModyfikacjaPut(ModyfikacjaNowaDTO obj, int lid)
+        {
+            List<ModyfikacjaNowaDTO> prev = null;
+            ModyfikacjaNowaDTO prevObj = new ModyfikacjaNowaDTO();
+            prev = await ModyfikacjaGET(lid, obj.id);
+            prevObj = prev.Where(e => e.id == obj.id).First();
+
+            if (obj.id_obiekt == null)
+            {
+                obj.id_obiekt = prevObj.id_obiekt;
+            }
+            if (obj.id_wersji == null)
+            {
+                obj.id_wersji = prevObj.id_wersji;
+            }
+            if (obj.obiekt == null)
+            {
+                obj.obiekt = prevObj.obiekt;
+            }
+            if (obj.operaca == null)
+            {
+                obj.operaca = prevObj.operaca;
+            }
+
+            string uri = "/modyfikacja/zmiana/" + lid.ToString() + "/" + obj.id.ToString();
+
+            ModyfikacjaToSend objToSend = new ModyfikacjaToSend()
+            {
+                id_obiekt = obj.id_obiekt,
+                id_wersji = obj.id_wersji,
+                obiekt = obj.obiekt,
+                operaca = obj.operaca
+            };
+            UniversalPut(objToSend, uri);
+        }
+
+        public static async Task PacjentPut(PacjentNowyDTO obj, int lid)
+        {
+            List<PacjentNowyDTO> prev = null;
+            PacjentNowyDTO prevObj = new PacjentNowyDTO();
+            prev = await PacjentGET(lid, obj.id);
+            prevObj = prev.Where(e => e.id == obj.id).First();
+
+            if (obj.aktywny == null)
+            {
+                obj.aktywny = prevObj.aktywny;
+            }
+            if (obj.id_magazyn == null)
+            {
+                obj.id_magazyn = prevObj.id_magazyn;
+            }
+            if (obj.ilosc_dodatkowych_parametrow == null)
+            {
+                obj.ilosc_dodatkowych_parametrow = prevObj.ilosc_dodatkowych_parametrow;
+            }
+            if (obj.imie == null)
+            {
+                obj.imie = prevObj.imie;
+            }
+            if (obj.nazwisko == null)
+            {
+                obj.nazwisko = prevObj.nazwisko;
+            }
+            if (obj.numer_koperty == null)
+            {
+                obj.numer_koperty = prevObj.numer_koperty;
+            }
+            if (obj.pesel == null)
+            {
+                obj.pesel = prevObj.pesel;
+            }
+
+            string uri = "/pacjent/zmiana/" + lid.ToString() + "/" + obj.id.ToString();
+            PacjentToSendDTO objToSend = new PacjentToSendDTO()
+            {
+                aktywny = obj.aktywny,
+                id_magazyn = obj.id_magazyn,
+                ilosc_dodatkowych_parametrow = obj.ilosc_dodatkowych_parametrow,
+                imie = obj.imie,
+                nazwisko = obj.nazwisko,
+                numer_koperty = obj.numer_koperty,
+                pesel = obj.pesel
+            };
+            UniversalPut(objToSend, uri);
+        }
 
         public static async Task TestStuff()
         {
-            /*List<DaneModyfikacjiNoweDTO> list = null;
-
-            list = await REST_SENDER.DaneModyfikacjiGET(1,2);
-            DaneModyfikacjiNoweDTO obj = new DaneModyfikacjiNoweDTO();
-            obj = list.Where(e => e.id == 2).First();
-
-            Console.WriteLine(obj.nazwa_danej);*/
-            DaneModyfikacjiNoweDTO obj = new DaneModyfikacjiNoweDTO()
+            /*DaneModyfikacjiNoweDTO obj = new DaneModyfikacjiNoweDTO()
             {
                 id = 2,
                 id_modyfikacja = 1,
@@ -133,7 +347,7 @@ namespace SendToREST
                 nowa_wartosc = "vvvv2"
             };
             DaneModyfikacjiPut(obj, 1);
-            Console.WriteLine("Wyslane");
+            Console.WriteLine("Wyslane");*/
         }
     }
 }
