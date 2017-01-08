@@ -7,9 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using SendToREST.DTO;
 
-//Install-Package Microsoft.AspNet.WebApi.Client
+//Bez tych dwóch nie będzie działało
 
-//References -> Add Reference -> prawy górny róg, DataAnnotations
+//Install-Package Microsoft.AspNet.WebApi.Client                    <- Klient do komunikacji
+
+//References -> Add Reference -> prawy górny róg, DataAnnotations   <- Opisy niektórych zmiennych, głównie jest tu po to żeby zmienne tutaj były identyczne co te na serwerze.
 namespace SendToREST
 {
     class Program
@@ -18,8 +20,10 @@ namespace SendToREST
         {
             System.Console.WriteLine("start/n");
 
+            // Inicjalizuje wartości klienta.
             REST_SENDER sender = new REST_SENDER();
 
+            // Przykładowe wywołanie. wait() czeka aż się wykona.
             REST_SENDER.TestStuff().Wait();
 
             System.Console.WriteLine("/nkoniec");

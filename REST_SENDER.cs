@@ -39,15 +39,8 @@ namespace SendToREST
 
         /*
          * Pobierz jeden*:
-         *      parametr .
-         *      przypisanie_parametru .
          *      wersja . jebać lol :v
-         *      wizyta .
          *      zasada .
-         *      
-         *      Zrób dla każdej funkcję, która sprawdzi czy dla updateowanego obiektu są null'e.
-         *      Jeśli są to wypełnij je danymi obiektu o tym samym id w odp liście.
-         *      Obiekty masz w nazwaDTO.
          */
 
         public static void ReplaceThisStuff(string a)
@@ -332,6 +325,140 @@ namespace SendToREST
                 nazwisko = obj.nazwisko,
                 numer_koperty = obj.numer_koperty,
                 pesel = obj.pesel
+            };
+            UniversalPut(objToSend, uri);
+        }
+
+        public static async Task ParametrPut(ParametrNowyDTO obj, int lid)
+        {
+            List<ParametrNowyDTO> prev = null;
+            ParametrNowyDTO prevObj = new ParametrNowyDTO();
+            prev = await ParametrGET(lid, obj.id);
+            prevObj = prev.Where(e => e.id == obj.id).First();
+
+            if (obj.nazwa == null)
+            {
+                obj.nazwa = prevObj.nazwa;
+            }
+            if (obj.typ == null)
+            {
+                obj.typ = prevObj.typ;
+            }
+            if (obj.wartosc_domyslna == null)
+            {
+                obj.wartosc_domyslna = prevObj.wartosc_domyslna;
+            }
+
+            string uri = "/parametr/zmiana/" + lid.ToString() + "/" + obj.id.ToString();
+
+            ParametrToSendDTO objToSend = new ParametrToSendDTO()
+            {
+                nazwa = obj.nazwa,
+                typ = obj.typ,
+                wartosc_domyslna = obj.wartosc_domyslna
+            };
+            UniversalPut(objToSend, uri);
+        }
+
+        public static async Task PrzypisanieParametruPut(Przypisanie_ParametruNowyDTO obj, int lid)
+        {
+            List<Przypisanie_ParametruNowyDTO> prev = null;
+            Przypisanie_ParametruNowyDTO prevObj = new Przypisanie_ParametruNowyDTO();
+            prev = await PrzypisanieParametruGET(lid, obj.id);
+            prevObj = prev.Where(e => e.id == obj.id).First();
+
+            if (obj.id_pacjent == null)
+            {
+                obj.id_pacjent = prevObj.id_pacjent;
+            }
+            if (obj.id_parametr == null)
+            {
+                obj.id_parametr = prevObj.id_parametr;
+            }
+            if (obj.wartosc == null)
+            {
+                obj.wartosc = prevObj.wartosc;
+            }
+
+            string uri = "/przypisanie/zmiana/" + lid.ToString() + "/" + obj.id.ToString();
+
+            Przypisanie_ParametruToSendDTO objToSend = new Przypisanie_ParametruToSendDTO()
+            {
+                id_pacjent = obj.id_pacjent,
+                id_parametr = obj.id_parametr,
+                wartosc = obj.wartosc
+            };
+            UniversalPut(objToSend, uri);
+        }
+
+        public static async Task WizytaPut(WizytaNowaDTO obj, int lid)
+        {
+            List<WizytaNowaDTO> prev = null;
+            WizytaNowaDTO prevObj = new WizytaNowaDTO();
+            prev = await WizytaGET(lid, obj.id);
+            prevObj = prev.Where(e => e.id == obj.id).First();
+
+            if (obj.data_wizyty == null)
+            {
+                obj.data_wizyty = prevObj.data_wizyty;
+            }
+            if (obj.id_pacjent == null)
+            {
+                obj.id_pacjent = prevObj.id_pacjent;
+            }
+            if (obj.komentarz == null)
+            {
+                obj.komentarz = prevObj.komentarz;
+            }
+
+            string uri = "/wizyta/zmiana/" + lid.ToString() + "/" + obj.id.ToString();
+
+            WizytaToSend objToSend = new WizytaToSend()
+            {
+                data_wizyty = obj.data_wizyty,
+                id_pacjent = obj.id_pacjent,
+                komentarz = obj.komentarz
+            };
+            UniversalPut(objToSend, uri);
+        }
+
+        public static async Task ZasadaPut(ZasadaNowaDTO obj, int lid)
+        {
+            List<ZasadaNowaDTO> prev = null;
+            ZasadaNowaDTO prevObj = new ZasadaNowaDTO();
+            prev = await ZasadaGET(lid, obj.id);
+            prevObj = prev.Where(e => e.id == obj.id).First();
+
+            if (obj.id_magazynu == null)
+            {
+                obj.id_magazynu = prevObj.id_magazynu;
+            }
+            if (obj.nazwa_atrybutu == null)
+            {
+                obj.nazwa_atrybutu = prevObj.nazwa_atrybutu;
+            }
+            if (obj.operacja_porownania == null)
+            {
+                obj.operacja_porownania = prevObj.operacja_porownania;
+            }
+            if (obj.spelnialnosc_operacji == null)
+            {
+                obj.spelnialnosc_operacji = prevObj.spelnialnosc_operacji;
+            }
+            if (obj.wartosc_porownania == null)
+            {
+                obj.wartosc_porownania = prevObj.wartosc_porownania;
+            }
+
+            string uri = "/zasada/zmiana/" + lid.ToString() + "/" + obj.id.ToString();
+
+            ZasadaToSendDTO objToSend = new ZasadaToSendDTO()
+            {
+                id_magazynu = obj.id_magazynu,
+                nazwa_atrybutu = obj.nazwa_atrybutu,
+                operacja_porownania = obj.operacja_porownania,
+                spelnialnosc_operacji = obj.spelnialnosc_operacji,
+                wartosc_porownania = obj.wartosc_porownania
             };
             UniversalPut(objToSend, uri);
         }
